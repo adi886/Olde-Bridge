@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en-IE">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Take Away Menu – Olde Bridge Restaurant Westport</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #C9933A; --gold-light: #E8B86D; --dark: #1A1008; --dark-2: #2B1E0E;
+    --text: #F5EDD8; --text-muted: #B8A88A; --border: rgba(201,147,58,0.25);
+    --red: #C8314A;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--dark); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 2rem; background: rgba(26,16,8,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; height: 70px; }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--gold-light); text-decoration: none; }
+  .nav-links { display: flex; align-items: center; gap: 0.25rem; list-style: none; }
+  .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.5rem 0.75rem; border-radius: 6px; transition: color 0.2s, background 0.2s; }
+  .nav-links a:hover { color: var(--text); background: rgba(201,147,58,0.1); }
+  .nav-cta { background: var(--gold) !important; color: var(--dark) !important; border-radius: 30px !important; padding: 0.5rem 1.25rem !important; font-weight: 500 !important; }
+  .nav-cta:hover { background: var(--gold-light) !important; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--text-muted); border-radius: 2px; }
+
+  /* PAGE HEADER */
+  .page-header { padding: 120px 2rem 50px; text-align: center; background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(200,49,74,0.08) 0%, transparent 70%), var(--dark-2); border-bottom: 1px solid var(--border); }
+  .page-tag { display: inline-block; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); border: 1px solid var(--border); border-radius: 30px; padding: 0.35rem 1rem; margin-bottom: 1rem; }
+  .page-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; }
+  .page-header h1 em { font-style: italic; color: var(--gold-light); }
+  .page-header p { color: var(--text-muted); margin-top: 0.75rem; font-weight: 300; }
+
+  /* STICKY ORDER BANNER */
+  .order-banner { background: var(--gold); color: var(--dark); text-align: center; padding: 0.75rem 2rem; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.04em; position: sticky; top: 70px; z-index: 90; }
+  .order-banner a { color: var(--dark); font-weight: 700; text-decoration: underline; }
+
+  /* CATEGORY NAV */
+  .cat-nav { position: sticky; top: calc(70px + 42px); z-index: 80; background: rgba(26,16,8,0.97); border-bottom: 1px solid var(--border); padding: 0.75rem 2rem; display: flex; gap: 0.5rem; overflow-x: auto; scrollbar-width: none; }
+  .cat-nav::-webkit-scrollbar { display: none; }
+  .cat-btn { flex-shrink: 0; background: transparent; border: 1px solid var(--border); color: var(--text-muted); font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.4rem 1rem; border-radius: 30px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .cat-btn:hover, .cat-btn.active { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+
+  /* MENU CONTENT */
+  .menu-page { padding: 4rem 2rem; }
+  .container { max-width: 900px; margin: 0 auto; }
+
+  .menu-category { margin-bottom: 4rem; }
+  .cat-header { display: flex; align-items: baseline; gap: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .cat-header h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: var(--text); }
+  .cat-header span { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
+
+  .cat-note { font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-bottom: 1.5rem; padding: 0.75rem 1rem; border-left: 2px solid var(--gold); background: rgba(201,147,58,0.06); border-radius: 0 6px 6px 0; }
+
+  .dish-list { display: flex; flex-direction: column; gap: 0; }
+  .dish-item { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid rgba(201,147,58,0.1); transition: background 0.15s; }
+  .dish-item:last-child { border-bottom: none; }
+  .dish-item:hover { background: rgba(201,147,58,0.04); margin: 0 -1rem; padding: 1rem 1rem; border-radius: 8px; border-bottom-color: transparent; }
+
+  .dish-info { flex: 1; }
+  .dish-name { font-weight: 500; font-size: 0.95rem; color: var(--text); margin-bottom: 0.2rem; }
+  .dish-desc { font-size: 0.82rem; color: var(--text-muted); font-weight: 300; line-height: 1.5; }
+  .dish-prices { text-align: right; flex-shrink: 0; }
+  .dish-price { font-size: 0.9rem; font-weight: 500; color: var(--gold-light); white-space: nowrap; }
+  .dish-price-variants { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; line-height: 1.6; }
+  .dish-price-variants span { display: block; }
+
+  /* SIDES 2-col grid on desktop */
+  .dish-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 3rem; }
+
+  /* CTA BAND */
+  .cta-band { background: linear-gradient(135deg, rgba(201,147,58,0.15) 0%, rgba(200,49,74,0.08) 100%), var(--dark-2); border-top: 1px solid var(--border); text-align: center; padding: 5rem 2rem; }
+  .cta-band h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 700; margin-bottom: 0.75rem; }
+  .cta-band p { color: var(--text-muted); font-weight: 300; max-width: 420px; margin: 0 auto 2rem; }
+  .btn { display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.85rem 2rem; border-radius: 40px; transition: all 0.2s; }
+  .btn-primary { background: var(--gold); color: var(--dark); }
+  .btn-primary:hover { background: var(--gold-light); }
+  .btn-outline { background: transparent; color: var(--text); border: 1px solid rgba(245,237,216,0.3); }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold-light); }
+  .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  /* FOOTER */
+  footer { background: #0E0905; border-top: 1px solid var(--border); padding: 3rem 2rem 2rem; text-align: center; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--gold-light); margin-bottom: 0.5rem; }
+  footer address { font-style: normal; color: var(--text-muted); font-size: 0.88rem; line-height: 1.9; margin-bottom: 1.5rem; }
+  footer address a { color: var(--gold-light); text-decoration: none; }
+  .footer-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.25rem 1.5rem; margin-bottom: 2rem; list-style: none; }
+  .footer-nav a { color: var(--text-muted); text-decoration: none; font-size: 0.82rem; }
+  .footer-bottom { font-size: 0.78rem; color: #5A4A38; border-top: 1px solid rgba(90,74,56,0.3); padding-top: 1.25rem; }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; right: 0; background: var(--dark); padding: 1rem 2rem 2rem; border-bottom: 1px solid var(--border); gap: 0.5rem; }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: 0.6rem 0; font-size: 0.9rem; }
+    .hamburger { display: flex; }
+    .dish-grid { grid-template-columns: 1fr; gap: 0; }
+    .cat-nav { top: calc(70px + 40px); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://oldebridge.ie/" class="nav-logo">Olde Bridge</a>
+  <ul class="nav-links" id="navLinks">
+  <li><a href="https://www.opentable.ie/r/olde-bridge-restaurant-reservations-westport?restref=453705&lang=en-IE" class="nav-cta">Book a Table</a></li>
+  <li><a href="sit-down-menu.html">Sit Down Menu</a></li>
+  <li><a href="take-away-menu.html">Take Away</a></li>
+  <li><a href="about.html">About</a></li>
+  <li><a href="location.html">Location</a></li>
+  <li><a href="contact.html">Contact</a></li>
+  <li><a href="https://app.squareup.com/gift/MLC3K8A70818R/order">Gift Vouchers</a></li>
+</ul>
+  <button class="hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="page-header">
+  <div class="page-tag">Order Online</div>
+  <h1>Take Away <em>Menu</em></h1>
+  <p>Fresh, made-to-order. Available for collection.</p>
+</div>
+
+<div class="order-banner">
+  Ready to order? &nbsp;<a href="#">Order Online Now →</a>
+</div>
+
+<div class="cat-nav" id="catNav">
+  <button class="cat-btn active" onclick="scrollTo('appetisers')">Starters</button>
+  <button class="cat-btn" onclick="scrollTo('indian')">Indian Mains</button>
+  <button class="cat-btn" onclick="scrollTo('thai')">Thai Mains</button>
+  <button class="cat-btn" onclick="scrollTo('tandoori')">Tandoori</button>
+  <button class="cat-btn" onclick="scrollTo('european')">European</button>
+  <button class="cat-btn" onclick="scrollTo('sides')">Sides & Rice</button>
+  <button class="cat-btn" onclick="scrollTo('kids')">Kids</button>
+  <button class="cat-btn" onclick="scrollTo('drinks')">Drinks</button>
+</div>
+
+<section class="menu-page">
+  <div class="container">
+
+    <!-- APPETISERS -->
+    <div class="menu-category" id="appetisers">
+      <div class="cat-header"><h2>Starters</h2><span>Appetisers</span></div>
+      <div class="dish-list">
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Onion Bhaji</div><div class="dish-desc">Fine sliced onions mixed with Indian spices and gram flour batter, deep fried.</div></div><div class="dish-prices"><div class="dish-price">€5.99</div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Vegetable Samosa</div><div class="dish-desc">Selection of vegetables and potato filled in crispy pastry, deep fried.</div></div><div class="dish-prices"><div class="dish-price">€5.99</div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Chicken Tikka Starter</div><div class="dish-desc">Chunks of Irish fillet chicken marinated in Indian spices, served with onions and peppers.</div></div><div class="dish-prices"><div class="dish-price">€6.99</div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Five Spice Chicken Starter</div><div class="dish-desc">Succulent pieces of chicken in aromatic five spice, golden fried, served with peppers, onions and sweet chilli.</div></div><div class="dish-prices"><div class="dish-price">€6.99</div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Chicken Pakoras</div><div class="dish-desc">Marinated tender strips of chicken dipped in gram flour batter and deep fried.</div></div><div class="dish-prices"><div class="dish-price">€6.99</div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Duck Spring Roll</div><div class="dish-desc">Deep fried spring roll with duck meat and vegetables.</div></div><div class="dish-prices"><div class="dish-price">€7.99</div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Sheekh Kebab Starter</div><div class="dish-desc">Lamb mince marinated in tandoori spices, fresh herbs, onions and peppers.</div></div><div class="dish-prices"><div class="dish-price">€6.99</div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Dry Hot & Spicy Lamb Meatballs</div><div class="dish-desc">Lamb meatballs cooked in hot and spicy oriental sauce with tender onions.</div></div><div class="dish-prices"><div class="dish-price">€6.99</div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Tandoori King Prawn Starter</div><div class="dish-desc">Jumbo prawns marinated in authentic Indian spices and cooked in a clay oven, served with onions and peppers.</div></div><div class="dish-prices"><div class="dish-price">€10.99</div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Mixed Platter for Two</div><div class="dish-desc">Selection of chicken tikka, lamb meatballs, onion bhaji and chicken pakora.</div></div><div class="dish-prices"><div class="dish-price">€12.99</div></div></div>
+      </div>
+    </div>
+
+    <!-- INDIAN MAINS -->
+    <div class="menu-category" id="indian">
+      <div class="cat-header"><h2>Indian Main Dishes</h2><span>Mains</span></div>
+      <div class="cat-note">All Indian/Thai mains served with boiled rice, pilau rice, chips or naan bread.</div>
+      <div class="dish-list">
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Tikka Masala</div><div class="dish-desc">Mildly spiced creamy tomato sauce with cashew nuts.</div></div><div class="dish-prices"><div class="dish-price-variants"><span>Veg €13.99</span><span>Paneer/Chicken €14.99</span><span>Lamb €15.99 · Prawn €16.99</span></div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Korma</div><div class="dish-desc">Creamy coconut and cashew nut sauce with mild spices.</div></div><div class="dish-prices"><div class="dish-price-variants"><span>Veg €13.99 · Chicken €14.99</span><span>Lamb €15.99 · Prawn €16.99</span></div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Jalfrezi</div><div class="dish-desc">Ginger, garlic, tomato, peppers and onions.</div></div><div class="dish-prices"><div class="dish-price-variants"><span>Veg €13.99 · Chicken €14.99</span><span>Lamb €15.99 · Prawn €16.99</span></div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Balti</div><div class="dish-desc">Medium spiced traditional North Indian curry with tomato, onion, pepper and coriander.</div></div><div class="dish-prices"><div class="dish-price-variants"><span>Veg €13.99 · Chicken €14.99</span><span>Lamb €15.99 · Prawn €16.99</span></div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Madras</div><div class="dish-desc">Fresh curry leaf, chilli, turmeric and coconut — the famous South Indian curry.</div></div><div class="dish-prices"><div class="dish-price-variants"><span>Veg €13.99 · Chicken €14.99</span><span>Lamb €15.99 · Prawn €16.99</span></div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Saag</div><div class="dish-desc">Fresh baby spinach with tomato, ginger, garlic and coriander.</div></div><div class="dish-prices"><div class="dish-price-variants"><span>Veg €13.99 · Chicken €14.99</span><span>Lamb €15.99 · Prawn €16.99</span></div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Vindaloo</div><div class="dish-desc">Very hot West Indian curry with potato and fresh coriander.</div></div><div class="dish-prices"><div class="dish-price-variants"><span>Veg €13.99 · Chicken €14.99</span><span>Lamb €15.99 · Prawn €16.99</span></div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Rogan Josh</div><div class="dish-desc">Tomato based sauce with ginger, garlic and fresh coriander.</div></div><div class="dish-prices"><div class="dish-price-variants"><span>Veg €13.99 · Chicken €14.99</span><span>Lamb €15.99 · Prawn €16.99</span></div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Palak Paneer</div><div class="dish-desc">Fresh baby spinach and paneer with tomato, ginger, garlic, fenugreek and coriander.</div></div><div class="dish-prices"><div class="dish-price">€14.99</div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Daal Fry</div><div class="dish-desc">Mixed lentils cooked with tomato, onions, ginger, garlic and fresh coriander.</div></div><div class="dish-prices"><div class="dish-price">€13.99</div></div></div>
+      </div>
+    </div>
+
+    <!-- THAI MAINS -->
+    <div class="menu-category" id="thai">
+      <div class="cat-header"><h2>Thai Main Dishes</h2><span>Mains</span></div>
+      <div class="dish-list">
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Thai Stir Fry</div><div class="dish-desc">Sesame oil and sweet chilli sauce, served with steamed rice or noodles.</div></div><div class="dish-prices"><div class="dish-price-variants"><span>Veg €13.99 · Chicken €14.99</span><span>Prawn €16.99</span></div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Thai Red Curry</div><div class="dish-desc">Red chilli, ginger and garlic with authentic Thai red coconut sauce.</div></div><div class="dish-prices"><div class="dish-price-variants"><span>Veg €13.99 · Chicken €14.99</span><span>Prawn €16.99</span></div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Thai Green Curry</div><div class="dish-desc">Green chilli, garlic, ginger and authentic Thai green coconut sauce.</div></div><div class="dish-prices"><div class="dish-price-variants"><span>Veg €13.99 · Chicken €14.99</span><span>Prawn €16.99</span></div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Thai Peanut Butter Curry</div><div class="dish-desc">Ginger, garlic, peanut butter and coconut sauce.</div></div><div class="dish-prices"><div class="dish-price-variants"><span>Veg €13.99 · Chicken €14.99</span><span>Prawn €16.99</span></div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Thai Massaman Curry</div><div class="dish-desc">Tangy coconut sauce with peppers, onions and potatoes.</div></div><div class="dish-prices"><div class="dish-price-variants"><span>Veg €13.95 · Chicken €14.99</span><span>Prawn €16.99</span></div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Five Spice Chicken Main</div><div class="dish-desc">Aromatic five spice, golden fried, in sweet chilli sauce with peppers and onions.</div></div><div class="dish-prices"><div class="dish-price">€13.99</div></div></div>
+      </div>
+    </div>
+
+    <!-- TANDOORI -->
+    <div class="menu-category" id="tandoori">
+      <div class="cat-header"><h2>Tandoori Dishes</h2><span>Clay Oven</span></div>
+      <div class="dish-list">
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Chicken Tikka Main</div><div class="dish-desc">Irish fillet chicken marinated in Indian spices, onions and peppers.</div></div><div class="dish-prices"><div class="dish-price">€15.99</div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Seekh Kebab Main</div><div class="dish-desc">Lamb mince marinated in Indian spices, fresh herbs, onions and peppers.</div></div><div class="dish-prices"><div class="dish-price">€15.99</div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Tandoori King Prawn Main</div><div class="dish-desc">Jumbo prawns marinated in authentic Indian spices and cooked in a clay oven.</div></div><div class="dish-prices"><div class="dish-price">€16.99</div></div></div>
+      </div>
+    </div>
+
+    <!-- EUROPEAN -->
+    <div class="menu-category" id="european">
+      <div class="cat-header"><h2>European Dishes</h2><span>Favourites</span></div>
+      <div class="dish-list">
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Stroganoff</div><div class="dish-desc">Strips of Irish chicken or beef, pan-fried with onions, mushroom in a vodka cream sauce. Served with basmati rice.</div></div><div class="dish-prices"><div class="dish-price">€14.99</div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Homemade Lasagne</div><div class="dish-desc">Topped with tomato and oregano sauce, served with tossed salad and fries.</div></div><div class="dish-prices"><div class="dish-price">€12.99</div></div></div>
+      </div>
+    </div>
+
+    <!-- SIDES & RICE -->
+    <div class="menu-category" id="sides">
+      <div class="cat-header"><h2>Sides, Rice & Extras</h2><span>Accompaniments</span></div>
+      <div class="dish-grid">
+        <div class="dish-list">
+          <div class="dish-item"><div class="dish-info"><div class="dish-name">Bombay Aloo</div><div class="dish-desc">Medium spiced potato curry with tomatoes, ginger, garlic and coriander.</div></div><div class="dish-prices"><div class="dish-price">€7.99</div></div></div>
+          <div class="dish-item"><div class="dish-info"><div class="dish-name">Chana Masala</div><div class="dish-desc">Chickpeas with onions, tomatoes, ginger, garlic and coriander.</div></div><div class="dish-prices"><div class="dish-price">€7.99</div></div></div>
+          <div class="dish-item"><div class="dish-info"><div class="dish-name">Saag Aloo</div><div class="dish-desc">Fresh baby spinach, potato, tomato, ginger, garlic and coriander.</div></div><div class="dish-prices"><div class="dish-price">€7.99</div></div></div>
+          <div class="dish-item"><div class="dish-info"><div class="dish-name">Chips</div></div><div class="dish-prices"><div class="dish-price">€4.00</div></div></div>
+          <div class="dish-item"><div class="dish-info"><div class="dish-name">Poppadom</div></div><div class="dish-prices"><div class="dish-price">€2.00</div></div></div>
+          <div class="dish-item"><div class="dish-info"><div class="dish-name">Dips</div><div class="dish-desc">Mango, Onion, Mint or Sweet Chilli</div></div><div class="dish-prices"><div class="dish-price">€1.00</div></div></div>
+        </div>
+        <div class="dish-list">
+          <div class="dish-item"><div class="dish-info"><div class="dish-name">Boiled Rice</div></div><div class="dish-prices"><div class="dish-price">€3.00</div></div></div>
+          <div class="dish-item"><div class="dish-info"><div class="dish-name">Pilau Rice</div></div><div class="dish-prices"><div class="dish-price">€3.50</div></div></div>
+          <div class="dish-item"><div class="dish-info"><div class="dish-name">Egg Fried Rice</div></div><div class="dish-prices"><div class="dish-price">€4.50</div></div></div>
+          <div class="dish-item"><div class="dish-info"><div class="dish-name">Mushroom Fried Rice</div></div><div class="dish-prices"><div class="dish-price">€4.50</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KIDS -->
+    <div class="menu-category" id="kids">
+      <div class="cat-header"><h2>Kids Meals</h2><span>Little ones</span></div>
+      <div class="dish-list">
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Kids Chicken Nuggets & Chips</div></div><div class="dish-prices"><div class="dish-price">€6.99</div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Kids Sausages & Chips</div></div><div class="dish-prices"><div class="dish-price">€6.99</div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Kids Fish Fingers & Chips</div></div><div class="dish-prices"><div class="dish-price">€6.99</div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Kids Chicken Tikka Masala</div></div><div class="dish-prices"><div class="dish-price">€8.99</div></div></div>
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Kids Chicken Korma</div></div><div class="dish-prices"><div class="dish-price">€8.99</div></div></div>
+      </div>
+    </div>
+
+    <!-- DRINKS -->
+    <div class="menu-category" id="drinks">
+      <div class="cat-header"><h2>Soft Drinks</h2><span>Beverages</span></div>
+      <div class="dish-list">
+        <div class="dish-item"><div class="dish-info"><div class="dish-name">Coca-Cola, Diet Coke, Club Orange, 7-Up Free or 7-Up</div><div class="dish-desc">0.33L can</div></div><div class="dish-prices"><div class="dish-price">€2.00</div></div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="cta-band">
+  <div class="container">
+    <h2>Prefer to dine in?</h2>
+    <p>Book a table and enjoy the full sit-down experience.</p>
+    <div class="cta-buttons">
+      <a href="https://www.opentable.ie/booking/restref/availability?lang=en-IE&restRef=453705" class="btn btn-primary">📅 Book a Table</a>
+      <a href="https://oldebridge.ie/services/" class="btn btn-outline">View Sit-Down Menu</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p class="footer-logo">Olde Bridge Restaurant</p>
+  <address>37 Bridge Street, Westport, Co. Mayo<br>📞 <a href="tel:09827721">098 27721</a> &nbsp;|&nbsp; ✉️ <a href="mailto:info@oldebridge.ie">info@oldebridge.ie</a></address>
+  <ul class="footer-nav">
+    <li><a href="https://www.opentable.ie/r/olde-bridge-restaurant-reservations-westport?restref=453705">Book a Table</a></li>
+    <li><a href="https://oldebridge.ie/services/">Sit-Down Menu</a></li>
+    <li><a href="https://oldebridge.ie/take-away-menu/">Take Away</a></li>
+    <li><a href="https://oldebridge.ie/about/">About</a></li>
+    <li><a href="https://oldebridge.ie/location/">Location</a></li>
+    <li><a href="https://oldebridge.ie/contact/">Contact</a></li>
+  </ul>
+  <div class="footer-bottom">Copyright © 2026 Olde Bridge Restaurant, Westport</div>
+</footer>
+
+<script>
+  document.getElementById('hamburger').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
+  function scrollTo(id) {
+    const el = document.getElementById(id);
+    if (el) { const offset = 70 + 42 + 50; window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' }); }
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>
